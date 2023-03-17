@@ -54,8 +54,8 @@ services:
       - mongo-db
 
   deliver-web:
-    build:
-      context: .
+    # build:
+    #  context: .
     image: jiridj/deliver-web
     container_name: deliver-web
     restart: unless-stopped
