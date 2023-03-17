@@ -16,31 +16,27 @@ const cartStore = useCartStore();
 const { orderLines } = storeToRefs(cartStore);
 
 let orderTotal = 0;
-orderLines.value.forEach((line) =>
-  orderTotal += (line.quantity * line.product.price)
-);
+orderLines.value.forEach((line) => (orderTotal += line.quantity * line.product.price));
 
 const steps = [
   { label: 'Review Cart', active: false, finished: true },
   { label: 'Shipping Details', active: false, finished: true },
-  { label: 'Check Out', active: true, finished: false },
+  { label: 'Check Out', active: true, finished: false }
 ];
 
 const loading = ref(false);
 const user = ref(null);
-api.getUser(token.value)
-  .then((res) => {
-    user.value = res;
-    loading.value = false;
-  });
+api.getUser(token.value).then((res) => {
+  user.value = res;
+  loading.value = false;
+});
 
 async function checkOut() {
   console.log(JSON.stringify(orderLines.value));
-  api.createOrder(token.value, orderLines.value)
-    .then((order) => {
-      cartStore.emptyCart();
-      router.push(`/cart/checkout/success?order=${order.number}`);
-    });
+  api.createOrder(token.value, orderLines.value).then((order) => {
+    cartStore.emptyCart();
+    router.push(`/cart/checkout/success?order=${order.number}`);
+  });
 }
 </script>
 
@@ -49,10 +45,7 @@ async function checkOut() {
     <CheckOutSteps :steps="steps" />
     <div class="container">
       <PageSpinner v-if="loading" />
-      <div
-        v-if="user && !loading"
-        class="row"
-      >
+      <div v-if="user && !loading" class="row">
         <div class="col col-lg-8">
           <h3>Payment details</h3>
           <div class="row">
@@ -66,7 +59,7 @@ async function checkOut() {
                   v-model="user.first_name"
                   placeholder="First name"
                   aria-label="First name"
-                >
+                />
               </div>
               <div class="col">
                 <label class="form-label">Last name</label>
@@ -77,7 +70,7 @@ async function checkOut() {
                   v-model="user.last_name"
                   placeholder="Last name"
                   aria-label="Last name"
-                >
+                />
               </div>
             </div>
             <div class="row mb-3">
@@ -97,22 +90,16 @@ async function checkOut() {
         </div>
         <div class="col col-lg-4">
           <h3>Order info</h3>
-          <div
-            id="contact-info"
-            class="mt-3 px-1"
-          >
+          <div id="contact-info" class="mt-3 px-1">
             <strong>Order: </strong>
             <br />
-            <span v-for="line in orderLines">
+            <span v-for="line in orderLines" :key="line.product.number">
               {{ line.quantity }}x {{ line.product.title }} <br />
             </span>
             <br />
             <span>Total: $ {{ orderTotal.toFixed(2) }}</span>
           </div>
-          <div
-            id="shipping-info"
-            class="mt-3 px-1"
-          >
+          <div id="shipping-info" class="mt-3 px-1">
             <strong>Shipping: </strong>
             <span>
               <br />
@@ -121,10 +108,7 @@ async function checkOut() {
               {{ user.city }} {{ user.country }} <br />
             </span>
           </div>
-          <div
-            id="contact-info"
-            class="mt-3 px-1"
-          >
+          <div id="contact-info" class="mt-3 px-1">
             <strong>Contact: </strong>
             <span>
               <br />
@@ -139,17 +123,21 @@ async function checkOut() {
           <button
             type="button"
             class="btn btn-dark"
-            style="padding-left: 2.5rem; padding-right: 2.5rem;"
+            style="padding-left: 2.5rem; padding-right: 2.5rem"
             @click="router.push('/cart/shipping')"
-          >Back to Shipping</button>
+          >
+            Back to Shipping
+          </button>
         </div>
         <div class="col clearfix">
           <button
             type="button"
             class="btn btn-dark float-end"
-            style="padding-left: 2.5rem; padding-right: 2.5rem;"
+            style="padding-left: 2.5rem; padding-right: 2.5rem"
             @click="checkOut"
-          >Pay Now</button>
+          >
+            Pay Now
+          </button>
         </div>
       </div>
     </div>

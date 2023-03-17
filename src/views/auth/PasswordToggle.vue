@@ -9,7 +9,7 @@ defineEmits(['update:password']);
 const show = ref(false);
 const password = ref('');
 
-function togglePassword(e) {
+function togglePassword() {
   show.value = !show.value;
 }
 </script>
@@ -24,14 +24,8 @@ function togglePassword(e) {
       @input="$emit('update:password', password)"
     />
     <span class="input-group-text bg-white">
-      <IconEye
-        v-if="!show"
-        @click="togglePassword"
-      />
-      <IconEyeSlash
-        v-else
-        @click="togglePassword"
-      />
+      <IconEye v-if="!show" @click="togglePassword" />
+      <IconEyeSlash v-else @click="togglePassword" />
     </span>
   </div>
 </template>

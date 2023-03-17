@@ -4,11 +4,9 @@ import { useAlertStore } from '@/stores/alert';
 
 import * as api from '@/api';
 
-async function reset(e) {
+async function reset() {
   const ok = await api.requestPasswordReset(email);
-  if (ok) alertStore.success(
-    'A four digit one-time password has been sent to your email address.'
-  );
+  if (ok) alertStore.success('A four digit one-time password has been sent to your email address.');
 }
 
 const alertStore = useAlertStore();
@@ -21,7 +19,7 @@ let email;
 
 <template>
   <div class="d-flex justify-content-center align-items-center">
-    <div class="container mt-5 ">
+    <div class="container mt-5">
       <div class="row d-flex justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
           <div class="card bg-white">
@@ -29,11 +27,11 @@ let email;
               <div
                 id="'login-alert'"
                 class="alert mt-3"
-                :class="(alert ? alert.type : '')"
+                :class="alert ? alert.type : ''"
                 role="alert"
                 :hidden="alertStore.hideAlert"
               >
-                {{ (alert ? alert.message : '') }}
+                {{ alert ? alert.message : '' }}
               </div>
 
               <form>
@@ -51,22 +49,18 @@ let email;
                   <button
                     type="button"
                     class="btn btn-dark"
-                    style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                    style="padding-left: 2.5rem; padding-right: 2.5rem"
                     @click="reset"
-                  >Reset password</button>
+                  >
+                    Reset password
+                  </button>
                   <p class="small fw-bold mt-2 pt-3 mb-0">
                     Already have an account?
-                    <a
-                      href="/auth/login"
-                      class="link-dark"
-                    >Login</a>
+                    <a href="/auth/login" class="link-dark">Login</a>
                   </p>
                   <p class="small fw-bold mt-2 pt-1 mb-0">
                     Don't have an account?
-                    <a
-                      href="/auth/signup"
-                      class="link-dark"
-                    >Register</a>
+                    <a href="/auth/signup" class="link-dark">Register</a>
                   </p>
                 </div>
               </form>

@@ -15,14 +15,13 @@ const updates = ref(false);
 let editable;
 
 const loading = ref(true);
-const user = ref(null)
-api.getUser(token.value)
-  .then((res) => {
-    user.value = res;
-    loading.value = false;
+const user = ref(null);
+api.getUser(token.value).then((res) => {
+  user.value = res;
+  loading.value = false;
 
-    editable = createCopy(res);
-  });
+  editable = createCopy(res);
+});
 
 function createCopy(user) {
   return ref({
@@ -33,31 +32,31 @@ function createCopy(user) {
     city: user.city,
     country: user.country,
     phone: user.phone,
-    credit_card: user.credit_card,
-  })
+    credit_card: user.credit_card
+  });
 }
 
-async function deleteAccount(e) {
+async function deleteAccount() {
   const ok = await api.deleteAccount(token.value, user.value.email);
   if (ok) logout();
 }
 
-async function update(e) {
+async function update() {
   const updated = await api.updateUser(token.value, editable.value);
   authStore.updateUser(updated);
   updates.value = false;
 }
 
-function cancel(e) {
+function cancel() {
   editable = createCopy(user.value);
   updates.value = false;
 }
 
-function logout(e) {
+function logout() {
   authStore.logout();
 }
 
-function onChange(e) {
+function onChange() {
   updates.value = true;
 }
 </script>
@@ -73,25 +72,21 @@ function onChange(e) {
             <h3>User profile</h3>
           </div>
           <div class="col d-flex align-items-end justify-content-end">
-            <button
-              type="button"
-              class="btn btn-success"
-              :disabled="!updates"
-              @click="update"
-            >Update</button>
+            <button type="button" class="btn btn-success" :disabled="!updates" @click="update">
+              Update
+            </button>
             <button
               type="button"
               class="btn btn-warning"
               :disabled="!updates"
-              style="margin-left: 8px;"
+              style="margin-left: 8px"
               @click="cancel"
-            >Cancel</button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              style="margin-left: 8px;"
-              @click="logout"
-            >Logout</button>
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-danger" style="margin-left: 8px" @click="logout">
+              Logout
+            </button>
           </div>
         </div>
         <PageSpinner v-if="loading" />
@@ -99,12 +94,7 @@ function onChange(e) {
           <div class="row mb-3">
             <div class="col">
               <label class="form-label">Email address</label>
-              <input
-                type="email"
-                class="form-control"
-                disabled
-                v-model="editable.email"
-              />
+              <input type="email" class="form-control" disabled v-model="editable.email" />
             </div>
           </div>
           <div class="row mb-3">
@@ -116,7 +106,7 @@ function onChange(e) {
                 v-model="editable.first_name"
                 placeholder="First name"
                 aria-label="First name"
-              >
+              />
             </div>
             <div class="col">
               <label class="form-label">Last name</label>
@@ -126,7 +116,7 @@ function onChange(e) {
                 v-model="editable.last_name"
                 placeholder="Last name"
                 aria-label="Last name"
-              >
+              />
             </div>
           </div>
           <div class="row mb-3">
@@ -150,7 +140,7 @@ function onChange(e) {
                 v-model="editable.city"
                 placeholder="City"
                 aria-label="City"
-              >
+              />
             </div>
             <div class="col">
               <label class="form-label">Country</label>
@@ -160,7 +150,7 @@ function onChange(e) {
                 v-model="editable.country"
                 placeholder="Country"
                 aria-label="Country"
-              >
+              />
             </div>
           </div>
           <div class="row mb-3">
@@ -190,13 +180,15 @@ function onChange(e) {
           <div class="row">
             <hr />
           </div>
-          <div style="margin-left: -10px;">
+          <div style="margin-left: -10px">
             <button
               type="button"
               class="btn btn-danger"
-              style="margin-left: 8px;"
+              style="margin-left: 8px"
               @click="deleteAccount"
-            >Delete your account</button>
+            >
+              Delete your account
+            </button>
           </div>
         </div>
       </form>

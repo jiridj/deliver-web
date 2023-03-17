@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  mongo-db:
+    image: mongo
+    container_name: deliver-mongo-db
+    restart: unless-stopped
+    mem_limit: 512m
+    mem_reservation: 128m
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Administrator
+      MONGO_INITDB_ROOT_PASSWORD: manage
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - deliver_data:/data/db
+
+  mongo-seed:
+    build:
+      context: ./data
+      no_cache: true
+    depends_on:
+      - mongo-db
+
+  mongo-express:
+    image: mongo-express
+    container_name: deliver-mongo-express
+    depends_on:
+      - mongo-db
+    restart: unless-stopped
+    mem_limit: 128m
+    mem_reservation: 64m
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo-db
+      ME_CONFIG_MONGODB_ADMINUSERNAME: Administrator
+      ME_CONFIG_MONGODB_ADMINPASSWORD: manage
+      ME_CONFIG_BASICAUTH_USERNAME: Administrator
+      ME_CONFIG_BASICAUTH_PASSWORD: manage
+    ports:
+      - 8081:8081
+
+  deliver-api:
+    image: jiridj/deliver-api
+    container_name: deliver-api
+    restart: unless-stopped
+    mem_limit: 128m
+    mem_reservation: 64m
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3333:3333
+    depends_on:
+      - mongo-db
+
+  deliver-web:
+    build:
+      context: .
+    image: jiridj/deliver-web
+    container_name: deliver-web
+    restart: unless-stopped
+    mem_limit: 256m
+    mem_reservation: 64m
+    environment:
+      - VITE_DELIVER_APP_MODE=dark
+      - VITE_DELIVER_APP_COLORS=dark
+      - VITE_DELIVER_API_URL=http://localhost:3333
+    ports:
+      - 4173:4173
+    depends_on:
+      - mongo-db
+      - deliver-api
+
+volumes:
+  deliver_data:

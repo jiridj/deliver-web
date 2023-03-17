@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import * as api from '@/api';
-import IconChevronDown from '@/components/icons/IconChevronDown.vue'
+import IconChevronDown from '@/components/icons/IconChevronDown.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
 import PageControl from '@/components/pagination/PageControl.vue';
 import PageSpinner from '@/components/spinner/PageSpinner.vue';
@@ -25,18 +25,16 @@ const page = ref(null);
 getUsers();
 
 function getUsers() {
-  api.getUsers(token.value, pageNum, pageSize)
-    .then((data) => {
-      page.value = data;
-      loading.value = false;
-    });
+  api.getUsers(token.value, pageNum, pageSize).then((data) => {
+    page.value = data;
+    loading.value = false;
+  });
 }
 
 async function deleteUser(user) {
-  api.deleteUser(token.value, user.email)
-    .then(() => {
-      getUsers();
-    });
+  api.deleteUser(token.value, user.email).then(() => {
+    getUsers();
+  });
 }
 </script>
 
@@ -46,10 +44,7 @@ async function deleteUser(user) {
 
     <div class="row d-flex justify-content-center align-items-center mt-3">
       <PageSpinner v-if="loading" />
-      <div
-        v-if="!loading"
-        class="row"
-      >
+      <div v-if="!loading" class="row">
         <PageControl
           v-if="page"
           :page="pageNum"
@@ -65,17 +60,14 @@ async function deleteUser(user) {
                 <th scope="col">Email</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
-                <th
-                  scope="col"
-                  class="text-center"
-                >Action</th>
+                <th scope="col" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody id="orderTable">
-              <template v-for="user in page.users">
+              <template v-for="user in page.users" :key="user.email">
                 <tr :id="`row-${++count}`">
                   <td
-                    style="width: 64px;"
+                    style="width: 64px"
                     data-bs-toggle="collapse"
                     :data-bs-target="`#detail-${count}`"
                   >
@@ -87,19 +79,12 @@ async function deleteUser(user) {
                   <td>{{ user.first_name }}</td>
                   <td>{{ user.last_name }}</td>
                   <td class="text-center">
-                    <a
-                      href="#"
-                      class="link-dark"
-                      @click="deleteUser(user)"
-                    >
+                    <a href="#" class="link-dark" @click="deleteUser(user)">
                       <IconTrash />
                     </a>
                   </td>
                 </tr>
-                <tr
-                  class="collapse accordion-collapse"
-                  :id="`detail-${count}`"
-                >
+                <tr class="collapse accordion-collapse" :id="`detail-${count}`">
                   <td colspan="5">
                     <div class="row mx-5">
                       <div class="col">

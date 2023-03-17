@@ -10,7 +10,7 @@ const props = defineProps({
     type: String,
     default: '/'
   }
-})
+});
 
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
@@ -21,7 +21,7 @@ alertStore.clear();
 let email;
 let password;
 
-async function login(e) {
+async function login() {
   await authStore.login(email, password, props.redirect);
 }
 </script>
@@ -30,22 +30,17 @@ async function login(e) {
   <div
     id="'login-alert'"
     class="alert mt-3"
-    :class="(alert ? alert.type : '')"
+    :class="alert ? alert.type : ''"
     role="alert"
     :hidden="alertStore.hideAlert"
   >
-    {{ (alert ? alert.message : '') }}
+    {{ alert ? alert.message : '' }}
   </div>
 
   <form>
     <div class="form-outline mb-3">
       <label class="form-label">Email address</label>
-      <input
-        type="email"
-        v-model="email"
-        class="form-control"
-        placeholder="john.doe@hotmail.com"
-      />
+      <input type="email" v-model="email" class="form-control" placeholder="john.doe@hotmail.com" />
     </div>
 
     <div class="form-outline mb-3">
@@ -57,22 +52,18 @@ async function login(e) {
       <button
         type="button"
         class="btn btn-dark"
-        style="padding-left: 2.5rem; padding-right: 2.5rem;"
+        style="padding-left: 2.5rem; padding-right: 2.5rem"
         @click="login"
-      >Login</button>
+      >
+        Login
+      </button>
       <p class="small fw-bold mt-2 pt-3 mb-0">
         Forgot your password?
-        <a
-          href="/auth/reset"
-          class="link-dark"
-        >Reset password</a>
+        <a href="/auth/reset" class="link-dark">Reset password</a>
       </p>
       <p class="small fw-bold mt-2 pt-1 mb-0">
         Don't have an account?
-        <a
-          href="/auth/signup"
-          class="link-dark"
-        >Register</a>
+        <a href="/auth/signup" class="link-dark">Register</a>
       </p>
     </div>
   </form>

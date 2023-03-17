@@ -11,10 +11,7 @@ const appColors = import.meta.env.VITE_DELIVER_APP_COLORS;
 <template>
   <div class="container-sm">
     <header>
-      <NavHeader
-        :mode="appMode"
-        :colors="appColors"
-      />
+      <NavHeader :mode="appMode" :colors="appColors" />
     </header>
 
     <main class="mt-5 pt-5 mb-5 pb-5">
@@ -22,10 +19,7 @@ const appColors = import.meta.env.VITE_DELIVER_APP_COLORS;
     </main>
 
     <footer>
-      <NavFooter
-        :mode="appMode"
-        :colors="appColors"
-      />
+      <NavFooter :mode="appMode" :colors="appColors" />
     </footer>
   </div>
 </template>

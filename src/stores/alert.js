@@ -17,6 +17,6 @@ export const useAlertStore = defineStore({
     }
   },
   getters: {
-    hideAlert: (state) => (state.alert == null),
+    hideAlert: (state) => state.alert == null
   }
 });

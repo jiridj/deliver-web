@@ -14,16 +14,15 @@ const { token } = storeToRefs(authStore);
 const steps = [
   { label: 'Review Cart', active: false, finished: true },
   { label: 'Shipping Details', active: true, finished: false },
-  { label: 'Check Out', active: false, finished: false },
+  { label: 'Check Out', active: false, finished: false }
 ];
 
 const loading = ref(false);
 const user = ref(null);
-api.getUser(token.value)
-  .then((res) => {
-    user.value = res;
-    loading.value = false;
-  });
+api.getUser(token.value).then((res) => {
+  user.value = res;
+  loading.value = false;
+});
 </script>
 
 <template>
@@ -36,20 +35,12 @@ api.getUser(token.value)
         </div>
       </div>
       <PageSpinner v-if="loading" />
-      <div
-        v-if="user && !loading"
-        class="row"
-      >
+      <div v-if="user && !loading" class="row">
         <div class="row pt-3">
           <div class="row mb-3">
             <div class="col">
               <label class="form-label">Email address</label>
-              <input
-                type="email"
-                class="form-control"
-                disabled
-                v-model="user.email"
-              />
+              <input type="email" class="form-control" disabled v-model="user.email" />
             </div>
           </div>
           <div class="row mb-3">
@@ -62,7 +53,7 @@ api.getUser(token.value)
                 v-model="user.first_name"
                 placeholder="First name"
                 aria-label="First name"
-              >
+              />
             </div>
             <div class="col">
               <label class="form-label">Last name</label>
@@ -73,7 +64,7 @@ api.getUser(token.value)
                 v-model="user.last_name"
                 placeholder="Last name"
                 aria-label="Last name"
-              >
+              />
             </div>
           </div>
           <div class="row mb-3">
@@ -99,7 +90,7 @@ api.getUser(token.value)
                 v-model="user.city"
                 placeholder="City"
                 aria-label="City"
-              >
+              />
             </div>
             <div class="col">
               <label class="form-label">Country</label>
@@ -110,7 +101,7 @@ api.getUser(token.value)
                 v-model="user.country"
                 placeholder="Country"
                 aria-label="Country"
-              >
+              />
             </div>
           </div>
           <div class="row mb-3">
@@ -131,17 +122,21 @@ api.getUser(token.value)
               <button
                 type="button"
                 class="btn btn-dark"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                style="padding-left: 2.5rem; padding-right: 2.5rem"
                 @click="router.push('/cart')"
-              >Back to Cart</button>
+              >
+                Back to Cart
+              </button>
             </div>
             <div class="col clearfix">
               <button
                 type="button"
                 class="btn btn-dark float-end"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                style="padding-left: 2.5rem; padding-right: 2.5rem"
                 @click="router.push('/cart/checkout')"
-              >To Check Out</button>
+              >
+                To Check Out
+              </button>
             </div>
           </div>
         </div>

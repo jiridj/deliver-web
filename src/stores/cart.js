@@ -3,16 +3,14 @@ import { defineStore } from 'pinia';
 export const useCartStore = defineStore({
   id: 'cart',
   state: () => ({
-    orderLines: JSON.parse(localStorage.getItem('deliver_cart')) || [],
+    orderLines: JSON.parse(localStorage.getItem('deliver_cart')) || []
   }),
   actions: {
     addLine(product, quantity) {
       const index = this.orderLines.findIndex((line) => line.product.number == product.number);
-      
-      if (index >= 0) 
-        this.orderLines[index].quantity += quantity;
-      else 
-        this.orderLines.push({ product, quantity });
+
+      if (index >= 0) this.orderLines[index].quantity += quantity;
+      else this.orderLines.push({ product, quantity });
 
       localStorage.setItem('deliver_cart', JSON.stringify(this.orderLines));
     },
@@ -31,6 +29,6 @@ export const useCartStore = defineStore({
   getters: {
     numLines: (state) => {
       return state.orderLines.length;
-    },
+    }
   }
 });

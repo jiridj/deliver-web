@@ -14,7 +14,7 @@ import StarRating from '@/views/product/StarRating.vue';
 const steps = [
   { label: 'Review Cart', active: true, finished: false },
   { label: 'Shipping Details', active: false, finished: false },
-  { label: 'Check Out', active: false, finished: false },
+  { label: 'Check Out', active: false, finished: false }
 ];
 
 const authStore = useAuthStore();
@@ -32,8 +32,7 @@ function minus(curr) {
   if (curr.quantity > 1) {
     curr.quantity--;
     cartStore.updateLocalStorage();
-  }
-  else deleteLine(curr);
+  } else deleteLine(curr);
 }
 
 function plus(curr) {
@@ -41,7 +40,7 @@ function plus(curr) {
   cartStore.updateLocalStorage();
 }
 
-function logout(e) {
+function logout() {
   authStore.logout('/cart');
 }
 </script>
@@ -63,30 +62,24 @@ function logout(e) {
             Your shopping cart is empty.
           </div>
 
-          <div
-            id="cart-content"
-            class="mt-4"
-          >
-            <div
-              v-for="line in orderLines"
-              class="card mb-3"
-            >
+          <div id="cart-content" class="mt-4">
+            <div v-for="line in orderLines" :key="line.product.number" class="card mb-3">
               <div class="row g-0">
                 <div class="col-md-4">
                   <a :href="`/product/${line.product.number}`">
                     <img
                       :src="`/${line.product.image}`"
                       class="img-fluid rounded-start"
-                      style="object-fit: contain; padding: 24px;"
+                      style="object-fit: contain; padding: 24px"
                       :alt="line.product.description"
-                    >
+                    />
                   </a>
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
                     <a
                       :href="`/product/${line.product.number}`"
-                      style="text-decoration: none;"
+                      style="text-decoration: none"
                       class="text-body"
                     >
                       <h5 class="card-title">{{ line.product.title }}</h5>
@@ -98,28 +91,22 @@ function logout(e) {
                     />
                     <div class="row pt-2">
                       <div class="col">Price: <br />$ {{ line.product.price }}</div>
-                      <div class="col">&nbsp; <br />
-                        <a
-                          href="#"
-                          @click="minus(line)"
-                        >
+                      <div class="col">
+                        &nbsp; <br />
+                        <a href="#" @click="minus(line)">
                           <IconMinus />
                         </a>
                         <strong class="px-3">{{ line.quantity }}</strong>
-                        <a
-                          href="#"
-                          @click="plus(line)"
-                        >
+                        <a href="#" @click="plus(line)">
                           <IconPlus />
                         </a>
                       </div>
-                      <div class="col">Total: <br />$ {{ (line.product.price * line.quantity).toFixed(2) }}</div>
-                      <div class="col">&nbsp; <br />
-                        <a
-                          href="#"
-                          class="link-dark"
-                          @click="deleteLine(line)"
-                        >
+                      <div class="col">
+                        Total: <br />$ {{ (line.product.price * line.quantity).toFixed(2) }}
+                      </div>
+                      <div class="col">
+                        &nbsp; <br />
+                        <a href="#" class="link-dark" @click="deleteLine(line)">
                           <IconTrash />
                         </a>
                       </div>
@@ -133,10 +120,7 @@ function logout(e) {
 
         <div class="col col-lg-4">
           <h3>Account</h3>
-          <div
-            v-if="authStore.loggedIn"
-            class="mt-3"
-          >
+          <div v-if="authStore.loggedIn" class="mt-3">
             <form>
               <div class="form-outline mb-3">
                 <label class="form-label">Email address</label>
@@ -175,24 +159,19 @@ function logout(e) {
                 <button
                   type="button"
                   class="btn btn-dark"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                  style="padding-left: 2.5rem; padding-right: 2.5rem"
                   @click="router.push('/cart/shipping')"
-                >To Shipping</button>
+                >
+                  To Shipping
+                </button>
                 <p class="small fw-bold mt-3 mb-0">
                   Not you? &nbsp;
-                  <a
-                    href="#"
-                    class="link-danger"
-                    @click="logout"
-                  >Log out</a>
+                  <a href="#" class="link-danger" @click="logout">Log out</a>
                 </p>
               </div>
             </form>
           </div>
-          <div
-            v-if="!authStore.loggedIn"
-            class="mt-3"
-          >
+          <div v-if="!authStore.loggedIn" class="mt-3">
             <LoginForm redirect="/cart" />
           </div>
         </div>

@@ -1,4 +1,3 @@
-
 import WizardSteps from '../../components/navigation/WizardSteps.vue';
 
 <script setup>

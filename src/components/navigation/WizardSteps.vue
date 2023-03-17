@@ -6,11 +6,9 @@ defineProps(['steps']);
   <div class="wizard-steps">
     <span
       v-for="step in steps"
+      :key="step.label"
       class="wizard-step"
-      :class="[
-        step.active ? 'active' : '',
-        step.finished ? 'finished' : ''
-      ]"
+      :class="[step.active ? 'active' : '', step.finished ? 'finished' : '']"
     >
       {{ step.label }}
     </span>
@@ -46,7 +44,7 @@ defineProps(['steps']);
 }
 
 .wizard-steps .wizard-step::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 50%;
   bottom: 0;
@@ -70,7 +68,7 @@ defineProps(['steps']);
 }
 
 .wizard-steps .wizard-step::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 50%;
   bottom: 13px;
