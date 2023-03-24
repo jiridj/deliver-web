@@ -61,10 +61,6 @@ services:
     restart: unless-stopped
     mem_limit: 256m
     mem_reservation: 64m
-    environment:
-      - VITE_DELIVER_APP_MODE=dark
-      - VITE_DELIVER_APP_COLORS=dark
-      - VITE_DELIVER_API_URL=http://localhost:3333
     ports:
       - 4173:4173
     depends_on:
