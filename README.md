@@ -65,7 +65,7 @@ When you wish to build the `jiridj/deliver-web` image locally, simply uncomment 
 ```yaml
 services:
   ...
-  deliver-api:
+  deliver-web:
     build:
       context: .
   ...
