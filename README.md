@@ -57,7 +57,7 @@ First, clone this repository so you have a local working copy.
 
 ```bash
 git clone git@github.com:jiridj/deliver-web.git
-cd deliver-api
+cd deliver-web
 ```
 
 When you wish to build the `jiridj/deliver-web` image locally, simply uncomment the build instructions in the [docker-compose.yml](docker-compose.yml) file.
